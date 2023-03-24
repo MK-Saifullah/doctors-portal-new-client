@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import loginLogo from "../../../assets/images/login.png";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import useToken from "../../../hooks/useToken";
 import SocialLogin from "./SocialLogin";
 
 const SignUp = () => {
@@ -11,12 +12,20 @@ const SignUp = () => {
     const {createUser, updateProfileUser} = useContext(AuthContext)
     const [user, setUser] = useState({})
     const [error, setError] = useState('')
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     
+    const [createdUserEmail, setCreatedUserEmail] = useState('');
+    const [token] = useToken(createdUserEmail)
+
+    if(token) {
+      navigate('/')
+    }
+
   const handleSignIn = (data) => {
     console.log(data);
+    
     createUser(data.email, data.password)
-    .then(userCredential => {
+      .then(userCredential => {
         const user = userCredential.user;
         console.log(user)
         const profile = {
@@ -24,7 +33,8 @@ const SignUp = () => {
         }
         updateProfileUser(profile)
         .then(() => {
-            navigate('/')
+          saveUser2DB(data.name, data.email)
+          // navigate('/')
         })
         .catch(err => console.error(err))
 
@@ -35,6 +45,36 @@ const SignUp = () => {
         console.error(err)
         setError(err.message)
     });
+
+    const saveUser2DB = (name, email) => {
+      const user = {name, email};
+      fetch('http://localhost:5000/users', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(user),
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log('saved user', data)
+        // navigate('/')
+        // getUserToken(email)
+      })
+// TO get access token
+      // const getUserToken = (email)=> {
+      //   fetch(`http://localhost:5000/jwt?email=${email}`)
+      //   .then(res => res.json())
+      //   .then(data => {
+      //     console.log(data)
+      //     if(data.accessToken){
+      //       localStorage.setItem('accessToken', data.accessToken)
+      //       navigate('/')
+      //     }
+      //   })
+      // } 
+      
+    }
   };
   return (
     <div className="hero w-full">
