@@ -7,7 +7,7 @@ const MyAppointments = () => {
     // const [booking, setBooking]  = useState({})
     const url = `http://localhost:5000/appointmentsData?email=${user?.email}`
 
-    const {data: appointmentsData = []} = useQuery({
+    const {data: appointmentsData = [], isError, isLoading, error} = useQuery({
         queryKey: ['appointmentsData', user?.email],
         queryFn: async () => {
             const res = await fetch (url, {
@@ -19,6 +19,13 @@ const MyAppointments = () => {
             return data
         }
     })
+    if (isLoading) {
+        return <span>Loading...</span>
+      }
+    
+      if (isError) {
+        return <span>Error: {error.message}</span>
+      }
 
     // useEffect(() => {
     //     fetch(url)

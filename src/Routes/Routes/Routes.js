@@ -7,6 +7,7 @@ import MyAppointments from "../../Pages/Dashboard/MyAppointments/MyAppointments"
 import Home from "../../Pages/Home/Home/Home"
 import Login from "../../Pages/Shared/Login/Login"
 import SignUp from "../../Pages/Shared/Login/SignUp"
+import AdminRoute from "../PrivateRoute/AdminRoute"
 import PrivateRoute from "../PrivateRoute/PrivateRoute"
 
 export const router = createBrowserRouter([
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/allusers',
-                element: <AllUsers></AllUsers>
+                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
             }
         ]
     }
