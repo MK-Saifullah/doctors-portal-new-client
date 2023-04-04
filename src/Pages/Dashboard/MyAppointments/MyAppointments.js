@@ -53,6 +53,8 @@ const MyAppointments = () => {
           <tbody>
             {/* row 1 */}
         {
+            appointmentsData &&
+
             appointmentsData?.map((booking, i) => 
                 <tr className="hover" key={booking._id}>
                 <th>{i+1}</th>
