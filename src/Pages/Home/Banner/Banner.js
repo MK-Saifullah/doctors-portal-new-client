@@ -2,6 +2,7 @@ import React from "react";
 import chair from "../../../assets/chair.png"
 import PrimaryButton from "../../../components/PrimaryButton/PrimaryButton";
 import chairBg from '../../../assets/chairBg.png'
+import { Link } from "react-router-dom";
 const Banner = () => {
   return (
     <div className="hero "
@@ -22,7 +23,7 @@ const Banner = () => {
           <p className="py-6">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam tempore voluptatem suscipit optio sit labore.
           </p>
-          <PrimaryButton>Get Started</PrimaryButton>
+          <PrimaryButton><Link to="/">Get Started</Link></PrimaryButton>
         </div>
       </div>
     </div>

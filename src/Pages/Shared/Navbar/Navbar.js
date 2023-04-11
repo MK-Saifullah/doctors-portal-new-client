@@ -1,14 +1,16 @@
 import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const Navbar = () => {
+  const navigate = useNavigate();
     const {user, logOutUser} = useContext(AuthContext)
     const handleLogOut = () => {
         logOutUser()
         .then(() => {
-            toast("Sign out Successfully")
+            toast("Sign out Successfully");
+            navigate('/');
         })
         .catch(error => console.error(error))
     }
@@ -24,9 +26,10 @@ const Navbar = () => {
       <li>
         <Link to="/appointment">Appointment</Link>
       </li>
-      <li>
+      {/* <li>
         <Link to="/contact">Contact</Link>
-      </li>
+      </li> */}
+      
 
      { 
      user?.email ?
@@ -49,6 +52,9 @@ const Navbar = () => {
       </li>
      </>
       }
+      {/* {
+        user?.email && <li><Link> {user?.email}</Link></li>
+      } */}
     </>
   );
   return (
